@@ -14,6 +14,10 @@ case $SELECTION in
 
    3)	editor;
    ;;
+
+   5)
+	installPKG;
+   ;;
    *)
 	clear;
 	exit;

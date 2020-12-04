@@ -3,6 +3,7 @@
 ###vars
 SYS=$(systemctl status apache2 > files/apache.log)
 STATUS_PATH=files/apache.log
+PACKAGES_PATH=files/packages
 ####vars
 
 yesno(){
@@ -25,13 +26,29 @@ menu(){
                      1 'status do webserver' off			\
                      2 'visualizar a página web do webserver' on 	\
                      3 'Editar o arquivo de log' off 			\
-		     4 'Sair' off;					)
+		     4 'Sair' off					\
+  		     5 'Instalar pacotes' off;				)
 }
+
+
+installPKG(){
+	dialog --stdout \
+	       --editbox ${PACKAGES_PATH} 0 0 >  ${PACKAGES_PATH}
+	if [ $? -eq 0 ]
+	then
+	   for PACKAGE in $(cat files/packages); do yum install -y $PACKAGE >> ${PACKAGES_PATH}.log; done &
+	   dialog --tailbox  ${PACKAGES_PATH}.log 0 0
+	   echo > ${PACKAGES_PATH}.log
+	else
+	   btnAction
+	fi
+}
+
 
 status(){
  NAME=$(dialog --stdout 			\
 	       --title "STATUS: ${STATUS_PATH}" \
-	       --tailbox ${STATUS_PATH}  0 0	)
+	       --textbox ${STATUS_PATH}  0 0	)
         clear;
 }
 
@@ -40,8 +57,8 @@ web(){
 }
 
 editor(){
-  dialog --editbox \
-	 --stdout ${STATUS_PATH} 0 0  > files/editbox.txt
+  dialog --stdout \
+	 --editbox ${STATUS_PATH} 0 0  > files/editbox.txt
 
   if [ $? -eq 0 ] 
   then
