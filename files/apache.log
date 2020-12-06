@@ -1,10 +1,9 @@
 ● httpd.service - The Apache HTTP Server
    Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
-   Active: active (running) since Sun 2020-12-06 17:52:35 -03; 1h 51min ago
+   Active: active (running) since Sun 2020-12-06 17:52:35 -03; 1h 57min ago
      Docs: man:httpd.service(8)
-  Process: 5686 ExecReload=/usr/sbin/httpd $OPTIONS -k graceful (code=exited, status=0/SUCCESS)
  Main PID: 978 (httpd)
-   Status: "Total requests: 4; Idle/Busy workers 100/0;Requests/sec: 0.000599; Bytes served/sec:   2 B/sec"
+   Status: "Total requests: 4; Idle/Busy workers 100/0;Requests/sec: 0.000569; Bytes served/sec:   2 B/sec"
     Tasks: 213 (limit: 6107)
    Memory: 29.2M
    CGroup: /system.slice/httpd.service

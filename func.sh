@@ -40,7 +40,7 @@ installPKG(){
 	if [ $? -eq 0 ]
 	then
 	   for PACKAGE in $(cat files/packages); do dnf install -y $PACKAGE >> ${PACKAGES_PATH}.log; done &
-	   dialog --tailbox  ${PACKAGES_PATH}.log 0 0
+	   dialog --tailbox  ${PACKAGES_PATH}.log 30 100
 	   echo > ${PACKAGES_PATH}.log
 	else
 	   btnAction
