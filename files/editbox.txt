@@ -1,1 +1,26 @@
+● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sun 2020-12-06 17:52:35 -03; 1h 32min ago
+     Docs: man:httpd.service(8)
+  Process: 5686 ExecReload=/usr/sbin/httpd $OPTIONS -k graceful (code=exited, status=0/SUCCESS)
+ Main PID: 978 (httpd)
+   Status: "Total requests: 4; Idle/Busy workers 100/0;Requests/sec: 0.000725; Bytes served/sec:   3 B/sec"
+    Tasks: 213 (limit: 6107)
+   Memory: 29.2G
+   CGroup: /system.slice/httpd.service
+           ├─ 978 /usr/sbin/httpd -DFOREGROUND
+           ├─5695 /usr/sbin/httpd -DFOREGROUND
+           ├─5696 /usr/sbin/httpd -DFOREGROUND
+           ├─5697 /usr/sbin/httpd -DFOREGROUND
+           └─5698 /usr/sbin/httpd -DFOREGROUND
 
+Dec 06 17:52:35 centos18.dexter.com.br systemd[1]: Starting The Apache HTTP Server...
+Dec 06 17:52:35 centos18.dexter.com.br systemd[1]: Started The Apache HTTP Server.
+Dec 06 17:52:35 centos18.dexter.com.br httpd[978]: Server configured, listening on: port 80
+Dec 06 18:45:01 centos18.dexter.com.br systemd[1]: Reloading The Apache HTTP Server.
+Dec 06 18:45:01 centos18.dexter.com.br systemd[1]: Reloaded The Apache HTTP Server.
+Dec 06 18:45:01 centos18.dexter.com.br httpd[978]: Server configured, listening on: port 80
+##################
+ Modificado em: 06/12/2020 
+ Por: root 
+###########

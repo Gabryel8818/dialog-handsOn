@@ -6,17 +6,18 @@ menu;
 btnAction;
 case $SELECTION in 
    1)
-	status;
+	status
    ;;
    2)
-	web;
+	delUsers;
    ;;
 
    3)	editor;
    ;;
 
-   5)
-	installPKG;
+   4)	installPKG;
+   ;;
+   5) 	addUsers;
    ;;
    *)
 	clear;

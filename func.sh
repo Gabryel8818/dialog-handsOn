@@ -1,9 +1,10 @@
 #!/bin/bash
 
 ###vars
-SYS=$(systemctl status apache2 > files/apache.log)
+SYS=$(systemctl status httpd > files/apache.log)
 STATUS_PATH=files/apache.log
 PACKAGES_PATH=files/packages
+USUARIO_PATH=files/usuarios
 ####vars
 
 yesno(){
@@ -23,11 +24,13 @@ menu(){
   SELECTION=$(dialog --stdout 						\
                      --title "Administração do Servidor $(hostname -s)" \
                      --radiolist "Data Local -> ${DATA}" 0 0 0 		\
-                     1 'status do webserver' off			\
-                     2 'visualizar a página web do webserver' on 	\
-                     3 'Editar o arquivo de log' off 			\
-		     4 'Sair' off					\
-  		     5 'Instalar pacotes' off;				)
+                     1 'status do webserver' 		off		\
+                     2 'Deletar usuarios' 		on		\
+                     3 'Editar o arquivo de log' 	off		\
+  		     4 'Instalar pacotes' 		off		\
+		     5 'Adicionar usuários' 		off		\
+		     6 'Sair' 				off;		)
+
 }
 
 
@@ -36,7 +39,7 @@ installPKG(){
 	       --editbox ${PACKAGES_PATH} 0 0 >  ${PACKAGES_PATH}
 	if [ $? -eq 0 ]
 	then
-	   for PACKAGE in $(cat files/packages); do yum install -y $PACKAGE >> ${PACKAGES_PATH}.log; done &
+	   for PACKAGE in $(cat files/packages); do dnf install -y $PACKAGE >> ${PACKAGES_PATH}.log; done &
 	   dialog --tailbox  ${PACKAGES_PATH}.log 0 0
 	   echo > ${PACKAGES_PATH}.log
 	else
@@ -45,6 +48,39 @@ installPKG(){
 }
 
 
+addUsers(){
+	dialog --stdout \
+	       --editbox ${USUARIO_PATH} 0 0 > ${USUARIO_PATH}
+	if [ $? -eq 0 ]
+	then
+	   for USUARIO in $(cat files/usuarios)
+	   do adduser $USUARIO; echo "Usuario -> $USUARIO adicionado " >> ${USUARIO_PATH}.log; done 
+	   echo > ${USUARIO_PATH}
+	   dialog --tailbox ${USUARIO_PATH}.log 0 0
+	   echo > ${USUARIO_PATH}.log
+
+	else
+	   btnAction
+	fi
+
+}
+
+delUsers(){
+        dialog --stdout \
+               --editbox ${USUARIO_PATH} 0 0 > ${USUARIO_PATH}
+        if [ $? -eq 0 ]
+        then
+           for USUARIO in $(cat files/usuarios)
+           do userdel -r $USUARIO; echo "Usuario -> $USUARIO removido " >> ${USUARIO_PATH}.log; done 
+           echo > ${USUARIO_PATH}
+           dialog --tailbox ${USUARIO_PATH}.log 0 0
+           echo > ${USUARIO_PATH}.log
+
+        else
+           btnAction
+        fi
+}
+
 status(){
  NAME=$(dialog --stdout 			\
 	       --title "STATUS: ${STATUS_PATH}" \
@@ -52,9 +88,9 @@ status(){
         clear;
 }
 
-web(){
-  lynx 127.0.0.1;
-}
+
+
+
 
 editor(){
   dialog --stdout \
