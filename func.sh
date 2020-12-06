@@ -24,11 +24,11 @@ menu(){
   SELECTION=$(dialog --stdout 						\
                      --title "Administração do Servidor $(hostname -s)" \
                      --radiolist "Data Local -> ${DATA}" 0 0 0 		\
-                     1 'status do webserver' 		off		\
-                     2 'Deletar usuarios' 		on		\
-                     3 'Editar o arquivo de log' 	off		\
-  		     4 'Instalar pacotes' 		off		\
-		     5 'Adicionar usuários' 		off		\
+                     1 'Status do webserver' 		off		\
+                     2 'Deletar Usuarios' 		on		\
+                     3 'Remover Pacotes' 	off			\
+  		     4 'Instalar Pacotes' 		off		\
+		     5 'Adicionar Usuários' 		off		\
 		     6 'Sair' 				off;		)
 
 }
@@ -92,19 +92,18 @@ status(){
 
 
 
-editor(){
-  dialog --stdout \
-	 --editbox ${STATUS_PATH} 0 0  > files/editbox.txt
+removePKG(){
+dialog --stdout \
+               --editbox ${PACKAGES_PATH} 0 0 >  ${PACKAGES_PATH}
+        if [ $? -eq 0 ]
+        then
+           for PACKAGE in $(cat files/packages); do dnf remove -y $PACKAGE >> ${PACKAGES_PATH}.log; done &
+           dialog --tailbox  ${PACKAGES_PATH}.log 30 100
+           echo > ${PACKAGES_PATH}.log
+        else
+           btnAction
+        fi
 
-  if [ $? -eq 0 ] 
-  then
-     yesno "Deseja Mesmo salvar as alterações?"
-    if [ $? -eq 0 ]
-    then
-      echo -e "##################\n Modificado em: ${DATA} \n Por: ${USER} \n###########">> files/editbox.txt
-      cat ./files/editbox.txt > ${STATUS_PATH}
-  else
-    	btnAction;
-    fi
-  fi
+
+
 }

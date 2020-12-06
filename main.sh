@@ -12,7 +12,7 @@ case $SELECTION in
 	delUsers;
    ;;
 
-   3)	editor;
+   3)	removePKG;
    ;;
 
    4)	installPKG;
